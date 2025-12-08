@@ -1,6 +1,7 @@
 package com.remitassure.base;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 public abstract class AbstractPage {
 	
@@ -12,7 +13,9 @@ public abstract class AbstractPage {
 	}
 
 	
-	
+	public void waitForelement(WebElement element) {
+		
+	}
 	
 	
 	
