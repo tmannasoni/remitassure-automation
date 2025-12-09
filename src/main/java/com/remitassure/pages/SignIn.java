@@ -1,5 +1,51 @@
 package com.remitassure.pages;
 
-public class SignIn {
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import com.remitassure.base.AbstractPage;
+
+public class SignIn extends AbstractPage {
+
+	SignIn(WebDriver driver) {
+		super(driver);
+		  PageFactory.initElements(driver, this);
+		
+	}
+	
+	@FindBy(xpath="//select[contains(@class,'login-code-select')]")
+	public WebElement countryCodeButton;
+	
+	@FindBy(xpath="//select[contains(@class,'login-code-select')]//option")
+	public List<WebElement> countryCodeOptions;
+	
+	@FindBy(css="input[placeholder='Email/Mobile']")
+	public WebElement emailAndMobileInput;
+
+	@FindBy(css="input[placeholder='Enter Password...']")
+	public WebElement passwordField;
+
+	@FindBy(xpath = "//a[@class=login_button]")
+	public WebElement loginSubmit;
+	
+	
+	public OtpChannelSelection loginByPhone(String countryCode, int number, String password) {
+		
+		countryCodeButton.click();
+		countryCodeOptions.stream().filter(s->s.getText().equalsIgnoreCase(countryCode))
+		.findFirst()
+		.ifPresent(WebElement::click);;
+		 
+		emailAndMobileInput.sendKeys(String.valueOf(number));
+		passwordField.sendKeys(password);
+		
+		return new OtpChannelSelection(driver);
+	}
+	
+	
 
 }
