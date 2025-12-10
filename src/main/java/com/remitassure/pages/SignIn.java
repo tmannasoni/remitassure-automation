@@ -11,7 +11,7 @@ import com.remitassure.base.AbstractPage;
 
 public class SignIn extends AbstractPage {
 
-	SignIn(WebDriver driver) {
+	public SignIn(WebDriver driver) {
 		super(driver);
 		  PageFactory.initElements(driver, this);
 		
@@ -29,19 +29,21 @@ public class SignIn extends AbstractPage {
 	@FindBy(css="input[placeholder='Enter Password...']")
 	public WebElement passwordField;
 
-	@FindBy(xpath = "//a[@class=login_button]")
+	@FindBy(xpath = "//button[@class='login_button']")
 	public WebElement loginSubmit;
 	
 	
-	public OtpChannelSelection loginByPhone(String countryCode, int number, String password) {
+	public OtpChannelSelection loginByPhone(String countryCode, int number, String password) throws InterruptedException {
 		
 		countryCodeButton.click();
+		Thread.sleep(2000);
 		countryCodeOptions.stream().filter(s->s.getText().equalsIgnoreCase(countryCode))
 		.findFirst()
 		.ifPresent(WebElement::click);;
 		 
 		emailAndMobileInput.sendKeys(String.valueOf(number));
 		passwordField.sendKeys(password);
+		loginSubmit.click();
 		
 		return new OtpChannelSelection(driver);
 	}

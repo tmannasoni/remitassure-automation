@@ -1,0 +1,10 @@
+com\remitassure\pages\OTPScreen.class
+com\remitassure\pages\SignIn.class
+com\remitassure\base\AbstractPage.class
+com\remitassure\pages\DashboardPage.class
+com\remitassure\base\BaseClass.class
+com\remitassure\pages\LandingPage.class
+com\remitassure\utils\WaitUtils.class
+com\remitassure\utils\ScreenshotUtils.class
+com\remitassure\pages\OtpChannelSelection.class
+com\remitassure\utils\DataUtils.class
