@@ -32,6 +32,8 @@ public class SignIn extends AbstractPage {
 	@FindBy(xpath = "//button[@class='login_button']")
 	public WebElement loginSubmit;
 	
+	@FindBy(css = "div[role='alert']")
+	private WebElement toastMessage;
 	
 	public OtpChannelSelection loginByPhone(String countryCode, int number, String password) throws InterruptedException {
 		
@@ -47,6 +49,11 @@ public class SignIn extends AbstractPage {
 		
 		return new OtpChannelSelection(driver);
 	}
+	
+	 public String getToastMessage() {
+		 waitForelement(toastMessage);
+	        return toastMessage.getText();
+	    }
 	
 	
 

@@ -1,5 +1,37 @@
 package com.remitassure.pages;
 
-public class TransferRecipientPage {
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.PageFactory;
 
+import com.remitassure.base.AbstractPage;
+
+public class TransferRecipientPage extends AbstractPage{
+
+	public TransferRecipientPage(WebDriver driver) {
+		super(driver);
+		PageFactory.initElements(driver, this);
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
+
