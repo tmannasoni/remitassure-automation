@@ -11,50 +11,76 @@ import com.remitassure.base.AbstractPage;
 
 public class SignIn extends AbstractPage {
 
-	public SignIn(WebDriver driver) {
-		super(driver);
-		  PageFactory.initElements(driver, this);
-		
-	}
-	
-	@FindBy(xpath="//select[contains(@class,'login-code-select')]")
-	public WebElement countryCodeButton;
-	
-	@FindBy(xpath="//select[contains(@class,'login-code-select')]//option")
-	public List<WebElement> countryCodeOptions;
-	
-	@FindBy(css="input[placeholder='Email/Mobile']")
-	public WebElement emailAndMobileInput;
+    public SignIn(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
 
-	@FindBy(css="input[placeholder='Enter Password...']")
-	public WebElement passwordField;
+    // --- Locators ---
+    @FindBy(xpath = "//select[contains(@class,'login-code-select')]")
+    public WebElement countryCodeButton;
 
-	@FindBy(xpath = "//button[@class='login_button']")
-	public WebElement loginSubmit;
-	
-	@FindBy(css = "div[role='alert']")
-	private WebElement toastMessage;
-	
-	public OtpChannelSelection loginByPhone(String countryCode, int number, String password) throws InterruptedException {
-		
-		countryCodeButton.click();
-		Thread.sleep(2000);
-		countryCodeOptions.stream().filter(s->s.getText().equalsIgnoreCase(countryCode))
-		.findFirst()
-		.ifPresent(WebElement::click);;
-		 
-		emailAndMobileInput.sendKeys(String.valueOf(number));
-		passwordField.sendKeys(password);
-		loginSubmit.click();
-		
-		return new OtpChannelSelection(driver);
-	}
-	
-	 public String getToastMessage() {
-		 waitForelement(toastMessage);
-	        return toastMessage.getText();
-	    }
-	
-	
+    @FindBy(xpath = "//select[contains(@class,'login-code-select')]//option")
+    public List<WebElement> countryCodeOptions;
 
+    @FindBy(css = "input[placeholder='Email/Mobile']")
+    public WebElement emailAndMobileInput;
+
+    @FindBy(css = "input[placeholder='Enter Password...']")
+    public WebElement passwordField;
+
+    @FindBy(xpath = "//button[@class='login_button']")
+    public WebElement loginSubmit;
+
+    @FindBy(css = "div[role='alert']")
+    private WebElement toastMessage;
+
+    @FindBy(xpath = "//h4[text()='OTP Delivery Preference']")
+    private WebElement otpHeading;
+
+    // --- Methods ---
+
+    /**
+     * Fill the login form (does NOT click submit)
+     */
+    public void fillLoginDetails(String countryCode, int number, String password) {
+        countryCodeButton.click();
+        countryCodeOptions.stream()
+            .filter(option -> option.getText().equalsIgnoreCase(countryCode))
+            .findFirst()
+            .ifPresent(WebElement::click);
+
+        emailAndMobileInput.clear();
+        emailAndMobileInput.sendKeys(String.valueOf(number));
+
+        passwordField.clear();
+        passwordField.sendKeys(password);
+    }
+
+    /**
+     * Submit the login form and detect if OTP page appears.
+     * Returns OTP page object if successful, otherwise returns null.
+     */
+    public OtpChannelSelection submitLogin() {
+        loginSubmit.click();
+
+        // Direct element check with try-catch
+        try {
+            if (otpHeading.isDisplayed()) {
+                return new OtpChannelSelection(driver);
+            }
+        } catch (Exception e) {
+            // OTP element not present → login failed
+        }
+
+        return null;
+    }
+
+    /**
+     * Retrieve any toast/error message (for failed login)
+     */
+    public String getToastMessage() {
+        waitForelement(toastMessage);
+        return toastMessage.getText();
+    }
 }
