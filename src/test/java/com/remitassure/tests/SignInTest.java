@@ -23,7 +23,7 @@ public class SignInTest extends BaseClass {
         Thread.sleep(3000);  // Consider replacing with explicit wait
     }
 
-    @Test
+    @Test(groups= {"login","smoke"})
     public void testValidLogin() throws InterruptedException {
         // Fill login details
         signInPage.fillLoginDetails("+55 (BR)", 96969696, "Test@123");
@@ -46,7 +46,7 @@ public class SignInTest extends BaseClass {
         assertNotNull(dashboardPage, "Dashboard not loaded after OTP submission");
     }
 
-    @Test
+    @Test(groups= {"login","negative"})
     public void loginWithInvalidCredentials() throws InterruptedException {
         // Fill login details
         signInPage.fillLoginDetails("+55 (BR)", 969690696, "T0est@123");
