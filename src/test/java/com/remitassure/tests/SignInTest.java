@@ -18,7 +18,7 @@ public class SignInTest extends BaseClass {
 
     @BeforeMethod
     public void setUpLogin() throws InterruptedException {
-        landingPage = new LandingPage(driver);
+        landingPage = new LandingPage(getDriver());
         signInPage = landingPage.loginButtonClick();
         Thread.sleep(3000);  // Consider replacing with explicit wait
     }

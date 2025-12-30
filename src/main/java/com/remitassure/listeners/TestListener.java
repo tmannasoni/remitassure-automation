@@ -1,8 +1,11 @@
 package com.remitassure.listeners;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import com.remitassure.utils.ScreenshotUtils;
 
 public class TestListener implements ITestListener {
 
@@ -29,6 +32,16 @@ public class TestListener implements ITestListener {
 	        // called when test fails
 	        System.out.println("TEST FAILED:");
 	        System.out.println("Test Name : " + result.getMethod().getMethodName());
+	        // 1️⃣ Get driver safely (thread-safe)
+	        WebDriver driver = com.remitassure.base.BaseClass.getDriver();
+
+	        // 2️⃣ Capture screenshot
+	        String screenshotPath = ScreenshotUtils.captureScreenshot(
+	                driver,
+	                result.getMethod().getMethodName()
+	        );
+
+	        System.out.println("Screenshot saved at: " + screenshotPath);
 
 	        Throwable error = result.getThrowable();
 	        if (error != null) {
